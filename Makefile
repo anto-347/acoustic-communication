@@ -1,12 +1,18 @@
 make:
-	gcc main.c -o build/main -lasound -lm
+	gcc -c src/main.c -Iinclude -o build/obj/main.o
+	gcc -c src/sound.c -Iinclude -o build/obj/sound.o
+
+	gcc build/obj/main.o build/obj/sound.o -o build/bin/app -lasound -lm -g
 
 run:
-	./build/main
+	./build/bin/app
 
 init:
-	rm -rf /build
+	rm -rf build
 	mkdir build
+	mkdir build/obj
+	mkdir build/bin
 
 clean:
-	rm -rf /build/*
+	rm -rf build/bin/*
+	rm -rf build/obj/*
