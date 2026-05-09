@@ -22,3 +22,12 @@ void configure_device(snd_pcm_hw_params_t *params, snd_pcm_t *handle)
     snd_pcm_hw_params(handle, params);
     snd_pcm_hw_params_free(params);
 }
+
+void play_sound(snd_pcm_t *handle, short *buffer, int *num_samples)
+{
+    snd_pcm_prepare(handle);
+    snd_pcm_writei(handle, buffer, *num_samples);
+    snd_pcm_drain(handle);
+
+    snd_pcm_close(handle);
+}
