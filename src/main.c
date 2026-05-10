@@ -6,16 +6,34 @@
 int main() {
     snd_pcm_t *handle;
     snd_pcm_hw_params_t *params;
-    char input[256];
-    int binaryRepresentation;
-
+    
     int continuer = 1;
 
     while (continuer) {
+        int allocationSize = 1793;
+        char input[256];
+        char *binaryRepresentation;
+        
         if (mode_is_send()) {
             create_message(input, sizeof(input));
+
+            while (allocationSize > 1792 || allocationSize <= 0) {
+                printf("Nombre de bits à allouer pour le batcher binaire (max: 1792) : ");
+                scanf("%d", &allocationSize);
+            }
+            binaryRepresentation = malloc(allocationSize * sizeof(*binaryRepresentation));
+            if (binaryRepresentation == NULL) {
+                printf("Erreur d'allocation de mémoire.\n");
+                return 1;
+            }
+
             message_to_binary(binaryRepresentation, input);
+
+            printf("%s", binaryRepresentation);
         }
+
+        free(binaryRepresentation);
+        binaryRepresentation = NULL;
         continuer = 0;
     }
 

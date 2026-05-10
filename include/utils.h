@@ -1,6 +1,10 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-void dec_to_bin(int *decimal_value);
+#include <stdio.h>
+#include <math.h>
+#include <stdint.h>
+
+void dec_to_bin_8(uint8_t decimal_value, char head[9]);
 
 #endif
