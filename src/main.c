@@ -8,18 +8,13 @@ int main() {
     snd_pcm_hw_params_t *params;
     char input[256];
     int binaryRepresentation;
-    int lengthInput;
-
 
     int continuer = 1;
 
     while (continuer) {
         if (mode_is_send()) {
-            *input = create_message();
-            lengthInput = strlen(input);
-
-            printf("\n %d \n", lengthInput);
-            // *binaryRepresentation = message_to_binary(&input);
+            create_message(input, sizeof(input));
+            message_to_binary(binaryRepresentation, input);
         }
         continuer = 0;
     }

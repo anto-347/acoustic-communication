@@ -11,20 +11,17 @@ int mode_is_send(void)
     return 0;
 }
 
-char create_message(void)
+void create_message(char *input, size_t size)
 {
-    char buffer[256];
     while (getchar() != '\n');
 
     printf("Entrez votre message : ");
-    fgets(buffer, 256, stdin);
+    fgets(input, size, stdin);
 
-    buffer[strcspn(buffer, "\n")] = '\0';
-
-    return *buffer;
+    input[strcspn(input, "\n")] = '\0';
 }
 
-int message_to_binary(char *inputUser)
+void message_to_binary(int *binaryRepresentation, char *inputUser)
 {
-
+    
 }

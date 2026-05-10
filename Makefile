@@ -3,8 +3,9 @@ make:
 	gcc -c src/sound.c -Iinclude -o build/obj/sound.obj
 	gcc -c src/sinusoide.c -Iinclude -o build/obj/sinusoide.obj
 	gcc -c src/message.c -Iinclude -o build/obj/message.obj
+	gcc -c src/utils.c -Iinclude -o build/obj/utils.obj²
 
-	gcc build/obj/main.obj build/obj/sound.obj src/sinusoide.c src/message.c -o build/bin/app -lasound -lm -g
+	gcc build/obj/main.obj build/obj/sound.obj src/sinusoide.c src/message.c src/utils.obj -o build/bin/app -lasound -lm -g
 
 run:
 	./build/bin/app

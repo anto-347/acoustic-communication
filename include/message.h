@@ -5,7 +5,7 @@
 #include <string.h>
 
 int mode_is_send(void);
-char create_message(void);
-int message_to_binary(char *inputUser);
+void create_message(char *input, size_t size);
+void message_to_binary(int *binaryRepresentation, char *inputUser);
 
 #endif
