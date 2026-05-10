@@ -7,10 +7,23 @@ int main() {
     snd_pcm_t *handle;
     snd_pcm_hw_params_t *params;
     char input[256];
+    int binaryRepresentation;
+    int lengthInput;
 
-    if (mode_is_send()) {
-        *input = create_message();
+
+    int continuer = 1;
+
+    while (continuer) {
+        if (mode_is_send()) {
+            *input = create_message();
+            lengthInput = strlen(input);
+
+            printf("\n %d \n", lengthInput);
+            // *binaryRepresentation = message_to_binary(&input);
+        }
+        continuer = 0;
     }
+
 
     // int num_samples = SAMPLE_RATE * DURATION;
     // short buffer[num_samples];

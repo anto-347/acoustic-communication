@@ -14,9 +14,17 @@ int mode_is_send(void)
 char create_message(void)
 {
     char buffer[256];
+    while (getchar() != '\n');
 
     printf("Entrez votre message : ");
-    scanf("%c", &buffer);
+    fgets(buffer, 256, stdin);
+
+    buffer[strcspn(buffer, "\n")] = '\0';
 
     return *buffer;
+}
+
+int message_to_binary(char *inputUser)
+{
+
 }
