@@ -9,6 +9,6 @@
 #define SAMPLE_RATE 44100
 #define AMPLITUDE   1.0
 
-short make_sinusoide(int *num_samples, short *buffer);
+void create_sinusoide(char *binaryRepresentation, int num_samples, short *buffer);
 
 #endif
