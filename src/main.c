@@ -1,7 +1,7 @@
 #include "../include/sound.h"
 #include "../include/sinusoide.h"
 #include "../include/message.h"
-
+#include "../include/config.h"
 
 #define ENERGY_THRESHOLD 1e15
 
@@ -74,17 +74,28 @@ int main() {
                 char *symbols[4] = {"00", "01", "10", "11"};
                 double max_energy = 0.0;
                 int best = -1;
+                double total_energy = 0.0;
+                double energies[4];
 
                 for (int i = 0; i < 4; i++) {
                     double energy = goertzel(buffer, 22050, freqs[i], SAMPLE_RATE);
+                    total_energy += energy;
+                    energies[i] = energy;
+
                     if (energy > max_energy) {
                         max_energy = energy;
                         best = i;
                     }
                 }
 
+                double ratio = energies[best] / total_energy;
+                if (ratio < 0.55) {
+                    printf("Signal pas assez clair (ratio : %.2f), bits ignorés.\n", ratio);
+                    continue;
+                }
+
                 if (max_energy < ENERGY_THRESHOLD) {
-                    printf("Bruit ambiant, on ignore\n");
+                    printf("Bruit ambiant, bits ignorés.\n");
                     continue;
                 }
 
@@ -106,6 +117,8 @@ int main() {
                     case STATE_RECEIVING:
                         strncat(message_bits, symbols[best], 2);
                         bits_received += 2;
+
+                        printf("* Message : %s | Meilleur symbole : %s\n", message_bits, symbols[best]);
                     
                         if (header_size == -1 && bits_received >= 8) {
                             char header_bits[9];
