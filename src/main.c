@@ -3,6 +3,8 @@
 #include "../include/message.h"
 
 
+#define ENERGY_THRESHOLD 1e15
+
 int main() {
     snd_pcm_t *handle;
     snd_pcm_hw_params_t *params;
@@ -10,7 +12,7 @@ int main() {
     int continuer = 1;
 
     while (continuer) {
-        int allocationSize = 1793;
+        int allocationSize = 2001;
         char input[256];
         char *binaryRepresentation;
         short *buffer;
@@ -18,8 +20,8 @@ int main() {
         if (mode_is_send()) {
             create_message(input, sizeof(input));
 
-            while (allocationSize > 1792 || allocationSize <= 0) {
-                printf("Nombre de bits à allouer pour le batcher binaire (max: 1792) : ");
+            while (allocationSize > 2000 || allocationSize <= 0) {
+                printf("Nombre de bits à allouer pour le batcher binaire (max: 2000) : ");
                 scanf("%d", &allocationSize);
             }
             binaryRepresentation = malloc(allocationSize * sizeof(*binaryRepresentation) + 1);
@@ -37,6 +39,12 @@ int main() {
             open_device_audio(&handle, 0);
             configure_device(params, handle);
             play_sound(handle, buffer, &num_samples);
+
+            free(binaryRepresentation);
+            binaryRepresentation = NULL;
+
+            free(buffer);
+            buffer = NULL;
 
         } else {
             open_device_audio(&handle, 1);
@@ -58,13 +66,14 @@ int main() {
             char message[256];
             int bit_count = 0;
 
+
             while (state != STATE_DONE) {
                 capture_audio(handle, buffer, 22050);
 
-                double freqs[4] = {1000.0, 1500.0, 2000.0, 2500.0};
+                double freqs[4] = {500.0, 1500.0, 2500.0, 3500.0};
                 char *symbols[4] = {"00", "01", "10", "11"};
                 double max_energy = 0.0;
-                int best = 0;
+                int best = -1;
 
                 for (int i = 0; i < 4; i++) {
                     double energy = goertzel(buffer, 22050, freqs[i], SAMPLE_RATE);
@@ -72,6 +81,11 @@ int main() {
                         max_energy = energy;
                         best = i;
                     }
+                }
+
+                if (max_energy < ENERGY_THRESHOLD) {
+                    printf("Bruit ambiant, on ignore\n");
+                    continue;
                 }
 
                 switch (state) {
@@ -121,12 +135,6 @@ int main() {
             }
             printf("\n");
         }
-
-        free(binaryRepresentation);
-        binaryRepresentation = NULL;
-
-        free(buffer);
-        buffer = NULL;
 
         printf("\n****************\nContinuer ? [1/0] ");
         scanf("%d", &continuer);

@@ -10,7 +10,7 @@ void create_sinusoide(char *binaryRepresentation, int num_samples, short *buffer
             binaryRepresentation[i] == '0' &&
             binaryRepresentation[i + 1] == '0'
         ) {
-            frequency = 1000;
+            frequency = 500;
         } else if (
             binaryRepresentation[i] == '0' &&
             binaryRepresentation[i + 1] == '1'
@@ -20,12 +20,12 @@ void create_sinusoide(char *binaryRepresentation, int num_samples, short *buffer
             binaryRepresentation[i] == '1' &&
             binaryRepresentation[i + 1] == '0'
         ) {
-            frequency = 2000;
+            frequency = 2500;
         } else if (
             binaryRepresentation[i] == '1' &&
             binaryRepresentation[i + 1] == '1'
         ) {
-            frequency = 2500;
+            frequency = 3500;
         }
 
 
