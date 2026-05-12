@@ -4,7 +4,7 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <math.h>
-#include <alsa/asoundlib.h>
+#include <string.h>
 
 #define SAMPLE_RATE 44100
 #define AMPLITUDE   1.0

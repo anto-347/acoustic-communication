@@ -1,4 +1,4 @@
-#include "../include/sound.h"
+#include "../include/sound_mac.h"
 #include "../include/sinusoide.h"
 #include "../include/message.h"
 
@@ -6,8 +6,7 @@
 #define ENERGY_THRESHOLD 1e15
 
 int main() {
-    snd_pcm_t *handle;
-    snd_pcm_hw_params_t *params;
+    PaStream *handle;
     
     int continuer = 1;
 
@@ -36,9 +35,8 @@ int main() {
 
             create_sinusoide(binaryRepresentation, num_samples, buffer);
             
-            open_device_audio(&handle, 0);
-            configure_device(params, handle);
-            play_sound(handle, buffer, &num_samples);
+            open_device_audio_mac(&handle, 0);
+            play_sound_mac(handle, buffer, &num_samples);
 
             free(binaryRepresentation);
             binaryRepresentation = NULL;
@@ -47,8 +45,7 @@ int main() {
             buffer = NULL;
 
         } else {
-            open_device_audio(&handle, 1);
-            configure_device(params, handle);
+            open_device_audio_mac(&handle, 1);
 
             short buffer[22050];
             char preamble_received[9] = "";
@@ -68,7 +65,7 @@ int main() {
 
 
             while (state != STATE_DONE) {
-                capture_audio(handle, buffer, 22050);
+                capture_audio_mac(handle, buffer, 22050);
 
                 double freqs[4] = {500.0, 1500.0, 2500.0, 3500.0};
                 char *symbols[4] = {"00", "01", "10", "11"};
