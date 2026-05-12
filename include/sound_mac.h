@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <portaudio.h>
+#include <stdlib.h>
 
 #define SAMPLE_RATE 44100
 #define AMPLITUDE   1.0
