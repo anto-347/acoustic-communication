@@ -2,6 +2,8 @@
 #include "../include/sinusoide.h"
 #include "../include/message.h"
 
+#include <stdlib.h>
+
 
 #define ENERGY_THRESHOLD 1e15
 
